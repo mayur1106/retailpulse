@@ -13,6 +13,8 @@ export type AuthResponse = {
 };
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4005";
+export const ADMIN_BASE_URL = process.env.NEXT_PUBLIC_ADMIN_BASE_URL ?? "http://localhost:3005";
+export const STOREFRONT_BASE_URL = process.env.NEXT_PUBLIC_STOREFRONT_BASE_URL ?? "http://localhost:3006";
 const TOKEN_STORAGE_KEY = "retailpulse.tokens";
 
 type TokenPair = AuthResponse["tokens"];

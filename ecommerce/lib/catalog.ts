@@ -8,6 +8,7 @@ export const money=(n:number)=>new Intl.NumberFormat('en-IN',{style:'currency',c
 
 const API_BASE=process.env.NEXT_PUBLIC_API_BASE_URL??'http://localhost:4005';
 const STORE_SLUG=process.env.NEXT_PUBLIC_STORE_SLUG??'rangavali';
+export const STOREFRONT_BASE_URL=process.env.NEXT_PUBLIC_STOREFRONT_BASE_URL??'http://localhost:3006';
 
 function normalizeProduct(raw:any):Product{
   const images=Array.isArray(raw.images)?raw.images:(raw.images?JSON.parse(String(raw.images)):[raw.image]).filter(Boolean);

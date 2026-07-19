@@ -64,8 +64,27 @@ Analytics are available from `GET /v1/analytics/dashboard?days=180`. Demo genera
 ## Quick Start
 
 1. Copy `.env.example` to `.env`.
-2. Run `docker compose up --build`.
-3. Open the apps:
+2. Use `.env.local` for local public URLs, or `.env.server` for `cmtdigi.com` public URLs.
+3. Run the local stack:
+
+```bash
+npm run docker:up:local
+```
+
+For the server build, run:
+
+```bash
+npm run docker:up:server
+```
+
+Detached variants are also available:
+
+```bash
+npm run docker:up:local:detached
+npm run docker:up:server:detached
+```
+
+4. Open the apps locally:
 
 | App | URL |
 | --- | --- |
@@ -79,10 +98,23 @@ You can also use the root helper scripts:
 
 ```bash
 npm run docker:up
+npm run docker:up:local
+npm run docker:up:server
 npm run docker:up:detached
+npm run docker:up:local:detached
+npm run docker:up:server:detached
 npm run docker:logs
 npm run docker:down
 ```
+
+Public browser-facing endpoints are controlled by environment variables:
+
+- `NEXT_PUBLIC_API_BASE_URL`
+- `NEXT_PUBLIC_ADMIN_BASE_URL`
+- `NEXT_PUBLIC_STOREFRONT_BASE_URL`
+- `NEXT_PUBLIC_STORE_SLUG`
+
+Local values live in `.env.local`; server values for `cmtdigi.com` live in `.env.server`. Secrets should remain in `.env` or your server secret manager.
 
 ## Local Backend
 

@@ -175,7 +175,7 @@ export function StorefrontCMSPage() {
   });
 
   const updateStore = (key: keyof typeof store) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setStore(value => ({ ...value, [key]: event.target.value }));
-  const storefrontURL = "http://localhost:3006";
+  const storefrontURL = process.env.NEXT_PUBLIC_STOREFRONT_BASE_URL ?? "http://localhost:3006";
 
   return <DashboardShell title="Storefront CMS" description="Design storefront content, commerce toggles, and checkout options." action={<div className="flex gap-2"><a href={storefrontURL} target="_blank" className="hidden rounded-xl border border-[#d0d5dd] bg-white px-3 py-2 text-xs font-semibold text-[#344054] shadow-sm hover:bg-[#f8fafc] sm:inline-flex"><Eye className="mr-2 h-4 w-4" />Preview</a><button onClick={() => save.mutate()} disabled={save.isPending || query.isLoading} className="rounded-xl bg-[#0f172a] px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#1e293b] disabled:opacity-60"><Save className="mr-2 inline h-4 w-4" />{save.isPending ? "Saving..." : "Publish changes"}</button></div>}>
     <div className="mb-5 overflow-hidden rounded-[28px] border border-[#e4e7ec] bg-white shadow-sm shadow-slate-200/70">

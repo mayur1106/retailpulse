@@ -40,8 +40,11 @@ services:
     environment:
       DATABASE_URL: postgres://retailpulse:retailpulse@postgres:5432/retailpulse?sslmode=disable
       REDIS_ADDR: redis:6379
+      WEB_APP_URL: ${WEB_APP_URL:-http://localhost:3005}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3005,http://localhost:3006,http://localhost:3003,http://localhost:3000,http://127.0.0.1:3005,http://127.0.0.1:3006,http://127.0.0.1:3003,http://127.0.0.1:3000}
+      AMAZON_LWA_REDIRECT_URL: ${AMAZON_LWA_REDIRECT_URL:-http://localhost:4005/v1/amazon/oauth/callback}
     ports:
-      - "4005:4005"
+      - "${API_HOST_PORT:-4005}:4005"
     depends_on:
       postgres:
         condition: service_healthy
@@ -52,11 +55,17 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:4005}
+        NEXT_PUBLIC_ADMIN_BASE_URL: ${NEXT_PUBLIC_ADMIN_BASE_URL:-http://localhost:3005}
+        NEXT_PUBLIC_STOREFRONT_BASE_URL: ${NEXT_PUBLIC_STOREFRONT_BASE_URL:-http://localhost:3006}
     environment:
-      NEXT_PUBLIC_API_BASE_URL: http://localhost:4005
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:4005}
+      NEXT_PUBLIC_ADMIN_BASE_URL: ${NEXT_PUBLIC_ADMIN_BASE_URL:-http://localhost:3005}
+      NEXT_PUBLIC_STOREFRONT_BASE_URL: ${NEXT_PUBLIC_STOREFRONT_BASE_URL:-http://localhost:3006}
       PORT: 3005
     ports:
-      - "3005:3005"
+      - "${WEB_HOST_PORT:-3005}:3005"
     depends_on:
       - api
 
@@ -65,14 +74,16 @@ services:
       context: .
       dockerfile: ecommerce/Dockerfile
       args:
-        NEXT_PUBLIC_API_BASE_URL: http://localhost:4005
-        NEXT_PUBLIC_STORE_SLUG: rangavali
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:4005}
+        NEXT_PUBLIC_STOREFRONT_BASE_URL: ${NEXT_PUBLIC_STOREFRONT_BASE_URL:-http://localhost:3006}
+        NEXT_PUBLIC_STORE_SLUG: ${NEXT_PUBLIC_STORE_SLUG:-rangavali}
     environment:
-      NEXT_PUBLIC_API_BASE_URL: http://localhost:4005
-      NEXT_PUBLIC_STORE_SLUG: rangavali
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:4005}
+      NEXT_PUBLIC_STOREFRONT_BASE_URL: ${NEXT_PUBLIC_STOREFRONT_BASE_URL:-http://localhost:3006}
+      NEXT_PUBLIC_STORE_SLUG: ${NEXT_PUBLIC_STORE_SLUG:-rangavali}
       PORT: 3000
     ports:
-      - "3006:3000"
+      - "${STOREFRONT_HOST_PORT:-3006}:3000"
     depends_on:
       - api
 
