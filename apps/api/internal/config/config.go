@@ -46,7 +46,7 @@ func Load() (Config, error) {
 		Port:                   getEnv("API_PORT", "4005"),
 		DatabaseURL:            os.Getenv("DATABASE_URL"),
 		RedisAddr:              getEnv("REDIS_ADDR", "127.0.0.1:6379"),
-		AllowedOrigins:         getEnv("ALLOWED_ORIGINS", "http://localhost:3005,http://localhost:3003,http://localhost:3000,http://localhost:3006,http://127.0.0.1:3005,http://127.0.0.1:3003,http://127.0.0.1:3000,http://127.0.0.1:3006"),
+		AllowedOrigins:         getEnv("ALLOWED_ORIGINS", "*"),
 		WebAppURL:              getEnv("WEB_APP_URL", "http://localhost:3005"),
 		JWTAccessSecret:        os.Getenv("JWT_ACCESS_SECRET"),
 		JWTRefreshSecret:       os.Getenv("JWT_REFRESH_SECRET"),
