@@ -1,0 +1,12 @@
+.git
+.next
+node_modules
+apps/web/.next
+apps/web/node_modules
+ecommerce/.next
+ecommerce/node_modules
+apps/api/tmp
+dist
+coverage
+.DS_Store
+npm-debug.log*

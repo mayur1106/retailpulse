@@ -1,0 +1,3 @@
+"use client";
+import { CommerceResourcePage, commerceDate, commerceMoney } from "@/components/commerce-resource-page";
+export default function OrdersPage(){return <CommerceResourcePage resource="orders" title="Orders" description="Unified central orders across Website now, Amazon/Google/Meta after channel normalization" columns={[{key:"order_number",label:"Order"},{key:"channel_code",label:"Channel"},{key:"placed_at",label:"Placed",format:commerceDate},{key:"customer",label:"Customer"},{key:"city",label:"City"},{key:"region_code",label:"Region"},{key:"items",label:"Items"},{key:"total",label:"Total",format:commerceMoney},{key:"payment_status",label:"Payment"},{key:"fulfillment_status",label:"Fulfillment"}]}/>;}

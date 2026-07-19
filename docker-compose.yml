@@ -1,0 +1,82 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: retailpulse
+      POSTGRES_USER: retailpulse
+      POSTGRES_PASSWORD: retailpulse
+    ports:
+      - "55432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U retailpulse -d retailpulse"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+
+  minio:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    environment:
+      MINIO_ROOT_USER: retailpulse
+      MINIO_ROOT_PASSWORD: retailpulse-secret
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://retailpulse:retailpulse@postgres:5432/retailpulse?sslmode=disable
+      REDIS_ADDR: redis:6379
+    ports:
+      - "4005:4005"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:4005
+      PORT: 3005
+    ports:
+      - "3005:3005"
+    depends_on:
+      - api
+
+  storefront:
+    build:
+      context: .
+      dockerfile: ecommerce/Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:4005
+        NEXT_PUBLIC_STORE_SLUG: rangavali
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:4005
+      NEXT_PUBLIC_STORE_SLUG: rangavali
+      PORT: 3000
+    ports:
+      - "3006:3000"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:

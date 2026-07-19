@@ -1,0 +1,4 @@
+"use client";
+import { ResourcePage, formatMoney } from "@/components/resource-page";
+const pct=(value:unknown)=>`${Number(value??0).toFixed(2)}%`;
+export default function AdsIntelligencePage(){return <ResourcePage resource="ads-intelligence" title="Ads intelligence" description="Product-level ad conversion, ROAS, ACOS, and scale/stop guidance" columns={[{key:"product",label:"Product"},{key:"category",label:"Category"},{key:"campaign",label:"Campaign"},{key:"channel",label:"Channel"},{key:"impressions",label:"Impressions"},{key:"clicks",label:"Clicks"},{key:"orders",label:"Orders"},{key:"conversion_rate",label:"CVR",format:pct},{key:"spend",label:"Spend",format:formatMoney},{key:"sales",label:"Sales",format:formatMoney},{key:"roas",label:"ROAS"},{key:"acos",label:"ACOS",format:pct},{key:"recommendation",label:"Action"}]}/>}

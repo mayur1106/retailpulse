@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retailpulse-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: retailpulse-redis
+  template:
+    metadata:
+      labels:
+        app: retailpulse-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+          args: ["redis-server", "--appendonly", "yes"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: retailpulse-redis
+spec:
+  selector:
+    app: retailpulse-redis
+  ports:
+    - port: 6379
+      targetPort: 6379

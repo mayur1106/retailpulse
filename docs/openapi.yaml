@@ -1,0 +1,299 @@
+openapi: 3.1.0
+info:
+  title: RetailPulse AI API
+  version: 0.1.0
+  description: Phase 1 authentication and platform foundation API.
+servers:
+  - url: http://localhost:4000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: Service is healthy
+  /v1/auth/register:
+    post:
+      summary: Register an organization owner or seller
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /v1/auth/login:
+    post:
+      summary: Sign in a RetailPulse user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          $ref: "#/components/responses/Error"
+  /v1/auth/refresh:
+    post:
+      summary: Rotate a refresh token and issue a new access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshRequest"
+      responses:
+        "200":
+          description: Tokens refreshed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenPair"
+        "401":
+          $ref: "#/components/responses/Error"
+  /v1/auth/logout:
+    post:
+      summary: Revoke a refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshRequest"
+      responses:
+        "204":
+          description: Session revoked
+  /v1/amazon/stores:
+    get:
+      summary: List connected Amazon stores
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Connected stores
+  /v1/amazon/oauth/start:
+    post:
+      summary: Start Amazon Seller Central authorization
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                region:
+                  type: string
+                  example: NA
+                marketplaceId:
+                  type: string
+                  example: ATVPDKIKX0DER
+      responses:
+        "200":
+          description: Amazon authorization URL
+  /v1/amazon/oauth/callback:
+    get:
+      summary: Amazon OAuth callback
+      parameters:
+        - name: state
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: spapi_oauth_code
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: selling_partner_id
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "302":
+          description: Redirects to dashboard after connection
+  /v1/amazon/sandbox/connect:
+    post:
+      summary: Connect the configured Amazon SP-API sandbox account
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Sandbox store connected
+  /v1/amazon/stores/{storeId}/import/orders:
+    post:
+      summary: Import recent Amazon orders through SP-API
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: storeId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                marketplaceId:
+                  type: string
+                  example: ATVPDKIKX0DER
+                createdAfter:
+                  type: string
+                  format: date-time
+      responses:
+        "200":
+          description: Import result
+  /v1/analytics/dashboard:
+    get:
+      summary: Tenant-scoped business analytics dashboard
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 7
+            maximum: 730
+      responses:
+        "200":
+          description: Summary, trend, product, inventory, and campaign analytics
+  /v1/analytics/demo/generate:
+    post:
+      summary: Generate deterministic store-scoped synthetic analysis data
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [storeId]
+              properties:
+                storeId:
+                  type: string
+                  format: uuid
+                months:
+                  type: integer
+                  minimum: 1
+                  maximum: 24
+      responses:
+        "201":
+          description: Demo dataset generated
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    Error:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [organizationName, name, email, password]
+      properties:
+        organizationName:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 12
+        accountType:
+          type: string
+          enum: [owner, seller]
+          default: owner
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    RefreshRequest:
+      type: object
+      required: [refreshToken]
+      properties:
+        refreshToken:
+          type: string
+    Principal:
+      type: object
+      required: [userId, organizationId, role, email]
+      properties:
+        userId:
+          type: string
+          format: uuid
+        organizationId:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [admin, organization_owner, seller, manager, viewer]
+        email:
+          type: string
+          format: email
+    TokenPair:
+      type: object
+      required: [accessToken, refreshToken, expiresAt]
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+    AuthResponse:
+      type: object
+      required: [user, tokens]
+      properties:
+        user:
+          $ref: "#/components/schemas/Principal"
+        tokens:
+          $ref: "#/components/schemas/TokenPair"
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            status:
+              type: integer

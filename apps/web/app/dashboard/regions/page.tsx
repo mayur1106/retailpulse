@@ -1,0 +1,3 @@
+"use client";
+import { ResourcePage, formatMoney } from "@/components/resource-page";
+export default function RegionsPage(){return <ResourcePage resource="regions" title="Regions" description="Regional sales, refunds, and ad efficiency" columns={[{key:"country_code",label:"Country"},{key:"region_code",label:"Region"},{key:"city",label:"City"},{key:"orders",label:"Orders"},{key:"units",label:"Units"},{key:"revenue",label:"Revenue",format:formatMoney},{key:"refunds",label:"Refunds",format:formatMoney},{key:"ad_spend",label:"Ad spend",format:formatMoney},{key:"roas",label:"ROAS"},{key:"data_origin",label:"Origin"}]}/>}

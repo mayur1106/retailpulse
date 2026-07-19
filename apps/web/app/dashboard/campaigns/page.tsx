@@ -1,0 +1,3 @@
+"use client";
+import { ResourcePage,formatMoney } from "@/components/resource-page";
+export default function CampaignsPage(){return <ResourcePage resource="campaigns" title="Ad campaigns" description="Amazon Ads, Google Ads, and Meta Ads spend, sales, and delivery performance" columns={[{key:"name",label:"Campaign"},{key:"channel",label:"Channel"},{key:"campaign_type",label:"Type"},{key:"status",label:"Status"},{key:"data_origin",label:"Origin"},{key:"budget",label:"Budget",format:formatMoney},{key:"spend",label:"Spend",format:formatMoney},{key:"sales",label:"Sales",format:formatMoney},{key:"orders",label:"Orders"},{key:"clicks",label:"Clicks"}]}/>}

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rangavali — modern Indian womenswear, made for every version of you." />
+  <title>Rangavali — Woven for your every day</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Italiana&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="offer">A little joy for your wardrobe — 10% off your first order <span>Use code <b>HELLO10</b></span></div>
+  <header class="nav">
+    <button class="icon-btn menu-btn" aria-label="Open menu">☰</button>
+    <a class="logo" href="#">RANGAVALI <small>INDIA</small></a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#new">New in</a><a href="#shop">Shop</a><a href="#occasion">By occasion</a><a href="#story">Our story</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn search-btn" aria-label="Search">⌕</button>
+      <button class="icon-btn" aria-label="Account">♙</button>
+      <button class="bag-btn" aria-label="Shopping bag">Bag <span class="cart-count">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img src="assets/hero.png" alt="Woman wearing a wine embroidered Rangavali kurta set" />
+      <div class="hero-copy reveal">
+        <span class="eyebrow">The Meher edit · 2026</span>
+        <h1>Woven for<br><em>your every day.</em></h1>
+        <p>Considered Indian silhouettes, breathable fabrics, and thoughtful detail—made to move beautifully with you.</p>
+        <div class="hero-actions"><a class="btn primary" href="#shop">Discover the edit</a><a class="text-link" href="#new">Shop new arrivals ↗</a></div>
+      </div>
+      <div class="hero-stamp"><span>MADE WITH</span><b>✦</b><span>INTENTION</span></div>
+    </section>
+
+    <section class="trust-strip">
+      <div><b>✦</b><span><strong>Free shipping</strong>On orders above ₹1,499</span></div>
+      <div><b>↻</b><span><strong>Easy exchanges</strong>Within 7 days</span></div>
+      <div><b>♧</b><span><strong>Natural fabrics</strong>Made to breathe</span></div>
+      <div><b>⌁</b><span><strong>Secure checkout</strong>100% protected</span></div>
+    </section>
+
+    <section class="section categories" id="new">
+      <div class="section-head reveal"><div><span class="eyebrow">Find your mood</span><h2>Made for the moments<br>you make your own.</h2></div><a class="text-link" href="#shop">View all collections ↗</a></div>
+      <div class="category-grid">
+        <article class="category-card tall reveal"><img src="assets/indigo-anarkali.png" alt="Indigo festive anarkali"/><div><span>01</span><h3>Festive glow</h3><p>Pieces that stay long after the celebration.</p><a href="#shop">Explore edit ↗</a></div></article>
+        <article class="category-card reveal"><img src="assets/sage-kurta.png" alt="Sage everyday kurta set"/><div><span>02</span><h3>Everyday ease</h3><p>Soft silhouettes for full, beautiful days.</p><a href="#shop">Explore edit ↗</a></div></article>
+        <article class="quote-card reveal"><span class="eyebrow">Our promise</span><blockquote>“Clothes should feel like <em>you</em>—only a little more luminous.”</blockquote><div class="thread-line"></div><p>Designed in India<br>Made with care</p></article>
+      </div>
+    </section>
+
+    <section class="section products" id="shop">
+      <div class="section-head centered reveal"><div><span class="eyebrow">Most loved</span><h2>The pieces everyone’s<br>talking about.</h2></div></div>
+      <div class="filters" role="tablist"><button class="active" data-filter="all">All styles</button><button data-filter="sets">Kurta sets</button><button data-filter="kurtas">Kurtas</button><button data-filter="occasion">Occasion</button></div>
+      <div class="product-grid">
+        <article class="product-card" data-category="sets"><div class="product-image"><span class="badge">Bestseller</span><button class="heart" aria-label="Add to wishlist">♡</button><img src="assets/sage-kurta.png" alt="Aarohi sage kurta set"/></div><div class="product-meta"><div><h3>Aarohi Cotton Kurta Set</h3><p>Sage · Hand block inspired</p></div><strong>₹1,899</strong></div><button class="quick-add">Quick add</button></article>
+        <article class="product-card" data-category="occasion"><div class="product-image alt-crop"><span class="badge new">New</span><button class="heart" aria-label="Add to wishlist">♡</button><img src="assets/indigo-anarkali.png" alt="Noor indigo anarkali"/></div><div class="product-meta"><div><h3>Noor Embroidered Anarkali</h3><p>Indigo · Cotton silk</p></div><strong>₹3,299</strong></div><button class="quick-add">Quick add</button></article>
+        <article class="product-card" data-category="kurtas"><div class="product-image warm"><span class="badge">Limited</span><button class="heart" aria-label="Add to wishlist">♡</button><img src="assets/hero.png" alt="Meher wine embroidered kurta"/></div><div class="product-meta"><div><h3>Meher Embroidered Kurta</h3><p>Wine · Chanderi blend</p></div><strong>₹2,499</strong></div><button class="quick-add">Quick add</button></article>
+        <article class="product-card" data-category="sets"><div class="product-image rose"><button class="heart" aria-label="Add to wishlist">♡</button><img src="assets/hero.png" alt="Ruhani ivory dupatta set"/></div><div class="product-meta"><div><h3>Ruhani Festive Set</h3><p>Ivory & wine · 3 piece</p></div><strong>₹3,799</strong></div><button class="quick-add">Quick add</button></article>
+      </div>
+      <a class="btn outline" href="#shop">Shop all pieces <span>↗</span></a>
+    </section>
+
+    <section class="occasion" id="occasion">
+      <div class="occasion-image"><img src="assets/hero.png" alt="Rangavali festive campaign"/></div>
+      <div class="occasion-copy reveal"><span class="eyebrow">The occasion room</span><h2>A little extra,<br><em>beautifully done.</em></h2><p>From family celebrations to evenings that call for something special—meet the pieces that make getting ready the best part.</p><a class="btn primary" href="#shop">Shop occasion wear</a><div class="mini-note">Thoughtfully finished<br><strong>from thread to hem</strong></div></div>
+    </section>
+
+    <section class="section story" id="story"><span class="eyebrow">Why Rangavali</span><h2>Rooted in craft.<br><em>Ready for now.</em></h2><p>We believe Indian wear belongs everywhere you do. So we pair time-honoured details with lighter fabrics, versatile silhouettes, and honest prices.</p><div class="story-stats"><div><strong>11+</strong><span>Years of dressing<br>Indian women</span></div><div><strong>4.8</strong><span>Average love<br>from our community</span></div><div><strong>7 days</strong><span>Simple, stress-free<br>exchanges</span></div></div></section>
+
+    <section class="newsletter"><span class="eyebrow">Come, be part of our world</span><h2>New stories, first looks,<br>and a little something for you.</h2><form id="newsletter"><label><input type="email" required placeholder="Your email address" aria-label="Email address"><button type="submit">Join the circle ↗</button></label></form><small>By subscribing, you agree to receive Rangavali updates. Unsubscribe anytime.</small></section>
+  </main>
+
+  <footer><a class="logo light" href="#">RANGAVALI <small>INDIA</small></a><p>Indian wear, for every version of you.</p><div class="footer-links"><div><h4>Shop</h4><a href="#new">New arrivals</a><a href="#shop">Kurta sets</a><a href="#occasion">Occasion wear</a></div><div><h4>Help</h4><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Size guide</a></div><div><h4>Follow</h4><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">WhatsApp</a></div></div><div class="footer-bottom"><span>© 2026 Rangavali</span><span>Made with intention in India</span></div></footer>
+
+  <aside class="cart-drawer" aria-hidden="true"><button class="cart-close" aria-label="Close bag">×</button><span class="eyebrow">Your selection</span><h2>Your bag</h2><div class="cart-items"><p>Your bag is waiting for something beautiful.</p></div><div class="cart-footer"><div><span>Subtotal</span><strong class="cart-total">₹0</strong></div><button class="btn primary">Checkout securely</button></div></aside><div class="overlay"></div>
+  <div class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+"use client";
+import { CommerceResourcePage, commerceDate, commerceMoney } from "@/components/commerce-resource-page";
+export default function CommerceCouponsPage(){return <CommerceResourcePage resource="coupons" title="Coupons" description="Discount rules, usage limits, and promotional offers" columns={[{key:"code",label:"Code"},{key:"name",label:"Campaign"},{key:"discount_type",label:"Type"},{key:"discount_value",label:"Value"},{key:"minimum_order_value",label:"Min order",format:commerceMoney},{key:"used_count",label:"Used"},{key:"usage_limit",label:"Limit"},{key:"expires_at",label:"Expires",format:commerceDate},{key:"status",label:"Status"}]}/>;}

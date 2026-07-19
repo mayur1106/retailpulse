@@ -1,0 +1,3 @@
+"use client";
+import { CommerceResourcePage, commerceDate, commerceMoney } from "@/components/commerce-resource-page";
+export default function CommerceOrdersPage(){return <CommerceResourcePage resource="orders" title="Commerce orders" description="Website orders, payment status, fulfillment, and customer region" columns={[{key:"order_number",label:"Order"},{key:"placed_at",label:"Placed",format:commerceDate},{key:"customer",label:"Customer"},{key:"city",label:"City"},{key:"region_code",label:"Region"},{key:"items",label:"Items"},{key:"total",label:"Total",format:commerceMoney},{key:"payment_status",label:"Payment"},{key:"fulfillment_status",label:"Fulfillment"}]}/>;}

@@ -1,0 +1,3 @@
+"use client";
+import { CommerceResourcePage, commerceDate } from "@/components/commerce-resource-page";
+export default function ChannelsPage(){return <CommerceResourcePage resource="channels" title="Channels" description="Sales destinations connected to the central product and inventory core" columns={[{key:"name",label:"Channel"},{key:"code",label:"Code"},{key:"channel_type",label:"Type"},{key:"status",label:"Status"},{key:"listed_products",label:"Listed products"},{key:"pending_syncs",label:"Pending sync"},{key:"failed_syncs",label:"Failed sync"},{key:"last_synced_at",label:"Last synced",format:commerceDate}]}/>;}

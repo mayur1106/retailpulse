@@ -1,0 +1,11 @@
+{
+  "name": "retailpulse-saas",
+  "private": true,
+  "scripts": {
+    "docker:up": "docker compose up --build",
+    "docker:up:detached": "docker compose up --build -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:ps": "docker compose ps"
+  }
+}

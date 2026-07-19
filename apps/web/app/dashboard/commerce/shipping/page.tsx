@@ -1,0 +1,3 @@
+"use client";
+import { CommerceResourcePage, commerceMoney } from "@/components/commerce-resource-page";
+export default function CommerceShippingPage(){return <CommerceResourcePage resource="shipping" title="Shipping" description="Shipping zones, rates, free-shipping thresholds, and delivery estimates" columns={[{key:"name",label:"Zone"},{key:"country_code",label:"Country"},{key:"region_codes",label:"Regions"},{key:"rate_type",label:"Type"},{key:"rate",label:"Rate",format:commerceMoney},{key:"free_shipping_threshold",label:"Free above",format:commerceMoney},{key:"estimated_days_min",label:"Min days"},{key:"estimated_days_max",label:"Max days"},{key:"cod_enabled",label:"COD"},{key:"status",label:"Status"}]}/>;}

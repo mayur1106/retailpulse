@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: retailpulse-postgres
+spec:
+  serviceName: retailpulse-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: retailpulse-postgres
+  template:
+    metadata:
+      labels:
+        app: retailpulse-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: retailpulse
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: retailpulse-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: retailpulse-secrets
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: retailpulse-postgres
+spec:
+  selector:
+    app: retailpulse-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

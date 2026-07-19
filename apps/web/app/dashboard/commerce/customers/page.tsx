@@ -1,0 +1,3 @@
+"use client";
+import { CommerceResourcePage, commerceDate, commerceMoney } from "@/components/commerce-resource-page";
+export default function CommerceCustomersPage(){return <CommerceResourcePage resource="customers" title="Commerce customers" description="Customer profiles, lifetime value, repeat orders, and geography" columns={[{key:"name",label:"Customer"},{key:"email",label:"Email"},{key:"phone",label:"Phone"},{key:"city",label:"City"},{key:"region_code",label:"Region"},{key:"order_count",label:"Orders"},{key:"total_spent",label:"Total spent",format:commerceMoney},{key:"created_at",label:"Created",format:commerceDate}]}/>;}
