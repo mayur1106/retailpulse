@@ -1158,36 +1158,70 @@ func (r *CommerceRepository) GenerateDemo(ctx context.Context, organizationID uu
 	`, organizationID, storeID); err != nil {
 		return nil, err
 	}
-	names := []string{"Meher Embroidered Kurta Set", "Zoya Chanderi Anarkali", "Aabha Silk Co-Ord Set", "Noor Tissue Saree", "Inaya Cotton Midi Dress", "Ruhani Drape Kurta", "Mishka Brocade Jacket Set", "Aarzoo Printed Dress", "Saanjh Organza Suit Set", "Tara Linen Kurta", "Nayra Festive Sharara", "Ira Handwoven Dupatta", "Amaira Panelled Dress", "Kashvi Velvet Kurta Set", "Veda Relaxed Co-Ord", "Esha Jacquard Anarkali", "Avni Pintuck Kurta", "Sitara Sequin Saree", "Myra Shirt Dress", "Prisha Silk Tunic"}
-	categories := []string{"Kurtas", "Ethnic Wear", "Co-Ord Sets", "Festive", "Dresses", "Fusion Wear", "Sarees", "Office Wear"}
-	colors := []string{"Wine", "Ivory", "Sage", "Indigo", "Rose", "Black"}
+	type demoProduct struct {
+		name        string
+		category    string
+		baseColor   string
+		accentColor string
+		price       float64
+		image       string
+		altImage    string
+		featured    bool
+	}
+	catalog := []demoProduct{
+		{"Beige Chanderi Silk Embroidered Anarkali Kurta", "Kurtas", "Beige", "Ivory", 1099, "/images/products/kurta-beige-chanderi-anarkali.png", "/images/products/kurta-rose-pintuck.png", true},
+		{"Orange Mangalgiri Cotton Buti A-Line Kurta", "Kurtas", "Orange", "Mustard", 999, "/images/products/kurta-orange-mangalgiri.png", "/images/products/kurta-beige-chanderi-anarkali.png", false},
+		{"Black Cotton Metallic Foil A-Line Kurta", "Kurtas", "Black", "Charcoal", 749, "/images/products/kurta-black-foil.png", "/images/products/kurta-orange-mangalgiri.png", true},
+		{"Off White Cotton Floral Printed Kurti", "Kurtas", "Off White", "Peach", 699, "/images/products/kurta-rose-pintuck.png", "/images/products/kurta-beige-chanderi-anarkali.png", false},
+		{"Maroon Cotton Zig Zag Printed A-Line Kurta", "Kurtas", "Maroon", "Wine", 1899, "/images/products/kurta-black-foil.png", "/images/products/kurta-rose-pintuck.png", true},
+		{"Indigo Cotton Silk Embroidered Straight Kurta", "Kurtas", "Indigo", "Navy", 2299, "/images/products/kurta-black-foil.png", "/images/products/kurta-beige-chanderi-anarkali.png", false},
+		{"Mustard Sleeveless Cotton Summer Kurta", "Kurtas", "Mustard", "Yellow", 899, "/images/products/kurta-orange-mangalgiri.png", "/images/products/kurta-rose-pintuck.png", false},
+		{"Teal Viscose Antique Foil Festive Kurta", "Kurtas", "Teal", "Sea Green", 1999, "/images/products/kurta-beige-chanderi-anarkali.png", "/images/products/kurta-black-foil.png", true},
+		{"Rose Cotton Pintuck Everyday Kurta", "Kurtas", "Rose", "Blush", 1299, "/images/products/kurta-rose-pintuck.png", "/images/products/kurta-orange-mangalgiri.png", false},
+		{"Sage Handblock Printed Straight Kurta", "Kurtas", "Sage", "Olive", 1499, "/images/products/kurta-orange-mangalgiri.png", "/images/products/kurta-beige-chanderi-anarkali.png", false},
+		{"Turquoise Cotton Printed Kurti Pant Set With Dupatta", "Salwar Suits", "Turquoise", "Aqua", 1999, "/images/products/suit-turquoise-printed-dupatta.png", "/images/products/suit-indigo-embroidered.png", true},
+		{"Pink Cotton Printed Kurti Pant Set With Dupatta", "Salwar Suits", "Pink", "Rose", 1999, "/images/products/suit-turquoise-printed-dupatta.png", "/images/products/suit-maroon-embroidered.png", false},
+		{"Yellow Mangalgiri Cotton Kurta And Palazzo Set", "Salwar Suits", "Yellow", "Mustard", 1999, "/images/products/suit-rust-satin-dupatta.png", "/images/products/suit-turquoise-printed-dupatta.png", true},
+		{"Maroon Cotton Silk Embroidered Salwar Suit Set", "Salwar Suits", "Maroon", "Wine", 2999, "/images/products/suit-maroon-embroidered.png", "/images/products/suit-rust-satin-dupatta.png", true},
+		{"Sand Beige Maroon Cotton Printed Salwar Suit Set", "Salwar Suits", "Sand Beige", "Maroon", 2499, "/images/products/suit-maroon-embroidered.png", "/images/products/suit-indigo-embroidered.png", false},
+		{"Indigo Cotton Silk Embroidered Suit Set With Dupatta", "Salwar Suits", "Indigo", "Navy", 4999, "/images/products/suit-indigo-embroidered.png", "/images/products/suit-maroon-embroidered.png", true},
+		{"Yellow Chanderi Cotton Silk Embroidered Suit Set", "Salwar Suits", "Yellow", "Gold", 1999, "/images/products/suit-rust-satin-dupatta.png", "/images/products/suit-turquoise-printed-dupatta.png", false},
+		{"Pink Cotton Embroidered Straight Suit Set", "Salwar Suits", "Pink", "Fuchsia", 2299, "/images/products/suit-turquoise-printed-dupatta.png", "/images/products/suit-maroon-embroidered.png", false},
+		{"Pista Green Cotton Straight Salwar Suit With Dupatta", "Salwar Suits", "Pista Green", "Mint", 1599, "/images/products/suit-turquoise-printed-dupatta.png", "/images/products/suit-indigo-embroidered.png", false},
+		{"Rust Satin Straight Suit With Dupatta", "Salwar Suits", "Rust", "Copper", 2200, "/images/products/suit-rust-satin-dupatta.png", "/images/products/suit-maroon-embroidered.png", true},
+	}
+	categories := []string{"Kurtas", "Salwar Suits"}
+	categoryImages := map[string]string{
+		"Kurtas":       "/images/products/kurta-beige-chanderi-anarkali.png",
+		"Salwar Suits": "/images/products/suit-turquoise-printed-dupatta.png",
+	}
 	sizes := []string{"XS", "S", "M", "L", "XL", "XXL"}
 	productIDs := []uuid.UUID{}
 	variantIDs := []uuid.UUID{}
 	for i, category := range categories {
-		_, err := tx.Exec(ctx, `insert into commerce_categories (organization_id,store_id,name,slug,image_url,sort_order) values ($1,$2,$3,$4,$5,$6)`, organizationID, storeID, category, slugify(category), fmt.Sprintf("/images/catalog/look-%d.jpg", (i%8)+1), i+1)
+		_, err := tx.Exec(ctx, `insert into commerce_categories (organization_id,store_id,name,slug,image_url,sort_order) values ($1,$2,$3,$4,$5,$6)`, organizationID, storeID, category, slugify(category), categoryImages[category], i+1)
 		if err != nil {
 			return nil, err
 		}
 	}
-	for i, name := range names {
+	for i, product := range catalog {
 		var categoryID uuid.UUID
-		category := categories[i%len(categories)]
+		category := product.category
 		if err := tx.QueryRow(ctx, `select id from commerce_categories where store_id=$1 and slug=$2`, storeID, slugify(category)).Scan(&categoryID); err != nil {
 			return nil, err
 		}
-		price := float64(1490 + (i%9)*420)
-		compare := price + float64(700+(i%5)*350)
+		price := product.price
+		compare := math.Round((price/0.44)/10) * 10
 		cost := price * (0.34 + float64(i%4)*0.03)
-		images, _ := json.Marshal([]string{fmt.Sprintf("/images/catalog/look-%d.jpg", (i%8)+1), fmt.Sprintf("/images/catalog/look-%d.jpg", ((i+2)%8)+1)})
-		options, _ := json.Marshal(map[string]any{"colors": []string{colors[i%len(colors)], colors[(i+2)%len(colors)]}, "sizes": sizes})
+		images, _ := json.Marshal([]string{product.image, product.altImage})
+		options, _ := json.Marshal(map[string]any{"colors": []string{product.baseColor, product.accentColor}, "sizes": sizes})
 		var pid uuid.UUID
-		err = tx.QueryRow(ctx, `insert into commerce_products (organization_id,store_id,category_id,title,slug,description,sku,brand,status,price,compare_at_price,cost_price,images,options,is_featured,tags) values ($1,$2,$3,$4,$5,$6,$7,'Rangavali','active',$8,$9,$10,$11,$12,$13,$14) returning id`, organizationID, storeID, categoryID, name, slugify(name), "Premium women's apparel crafted for everyday elegance and festive moments.", fmt.Sprintf("RV-%03d", i+1), price, compare, cost, images, options, i%4 == 0, []string{strings.ToLower(category), "women", "apparel"}).Scan(&pid)
+		err = tx.QueryRow(ctx, `insert into commerce_products (organization_id,store_id,category_id,title,slug,description,sku,brand,status,price,compare_at_price,cost_price,images,options,is_featured,tags) values ($1,$2,$3,$4,$5,$6,$7,'Rangavali','active',$8,$9,$10,$11,$12,$13,$14) returning id`, organizationID, storeID, categoryID, product.name, slugify(product.name), "Rangavali-style women's ethnicwear with breathable fabrics, easy festive styling, and variant-wise color and size inventory.", fmt.Sprintf("RV-%03d", i+1), price, compare, cost, images, options, product.featured, []string{slugify(category), "women", "ethnicwear", "rangavali-style"}).Scan(&pid)
 		if err != nil {
 			return nil, err
 		}
 		productIDs = append(productIDs, pid)
-		for _, color := range []string{colors[i%len(colors)], colors[(i+2)%len(colors)]} {
+		for _, color := range []string{product.baseColor, product.accentColor} {
 			for _, size := range sizes {
 				var vid uuid.UUID
 				err = tx.QueryRow(ctx, `insert into commerce_product_variants (organization_id,store_id,product_id,title,sku,color,size,price,compare_at_price,cost_price,stock_quantity,low_stock_threshold) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,8) returning id`, organizationID, storeID, pid, color+" / "+size, fmt.Sprintf("RV-%03d-%s-%s", i+1, strings.ToUpper(color[:2]), size), color, size, price, compare, cost, 18+(i*7+len(size))%80).Scan(&vid)
@@ -1211,7 +1245,7 @@ func (r *CommerceRepository) GenerateDemo(ctx context.Context, organizationID uu
 	for _, c := range []struct {
 		code, name, typ string
 		val, min        float64
-	}{{"WELCOME10", "First order 10% off", "percentage", 10, 999}, {"FREESHIP", "Free shipping above ₹1,999", "free_shipping", 100, 1999}, {"DRESS20", "Dresses campaign", "percentage", 20, 2499}} {
+	}{{"WELCOME10", "First order 10% off", "percentage", 10, 999}, {"FREESHIP", "Free shipping above ₹1,999", "free_shipping", 100, 1999}, {"SUIT15", "Salwar suit festive offer", "percentage", 15, 2499}} {
 		_, err = tx.Exec(ctx, `insert into commerce_coupons (organization_id,store_id,code,name,discount_type,discount_value,minimum_order_value,status,expires_at) values ($1,$2,$3,$4,$5,$6,$7,'active',now()+interval '120 days')`, organizationID, storeID, c.code, c.name, c.typ, c.val, c.min)
 		if err != nil {
 			return nil, err
@@ -1384,23 +1418,23 @@ func (r *CommerceRepository) ensureDefaultCMS(ctx context.Context, organizationI
 	_, err := r.pool.Exec(ctx, `
 		insert into commerce_homepage_sections (organization_id,store_id,section_key,section_type,title,subtitle,layout,image_url,cta_label,cta_href,category_slug,product_source,max_items,content,sort_order,status)
 		values
-			($1,$2,'hero','hero','Light, woven into every detail.','Heirloom-inspired silhouettes and luminous fabrics for every celebration.','split','/images/rangavali-hero.png','Shop the collection','/category/festive','festive','featured',8,$3,1,'active'),
+			($1,$2,'hero','hero','Kurtas and suit sets for every day of celebration.','Printed cottons, chanderi textures, and easy salwar suit sets inspired by modern Indian wardrobes.','split','/images/rangavali-hero.png','Shop salwar suits','/category/salwar-suits','salwar-suits','featured',8,$3,1,'active'),
 			($1,$2,'category_tiles','category_tiles','Shop by category','','tiles','','View all','/category/all','','categories',8,'{}'::jsonb,2,'active'),
-			($1,$2,'trending','product_grid','Trending now','Styles everyone is adding to bag','grid','','View all','/category/new-arrivals','all','trending',12,'{}'::jsonb,3,'active'),
+			($1,$2,'trending','product_grid','Trending kurtas and suits','Styles everyone is adding to bag','grid','','View all','/category/all','all','trending',12,'{}'::jsonb,3,'active'),
 			($1,$2,'offers','promo_tiles','Offers you cannot miss','','three_tiles','','Shop now','/category/sale','sale','manual',3,$4,4,'active'),
 			($1,$2,'bestsellers','product_grid','Bestsellers','Most-loved styles from your storefront','grid','','View all','/category/all','all','bestsellers',12,'{}'::jsonb,5,'active'),
-			($1,$2,'feature_banner','banner','An evening in bloom.','Limited-run occasion pieces, embellished by hand.','banner','/images/catalog/look-8.jpg','Shop limited edition','/category/limited-edition','limited-edition','manual',1,$5,6,'active'),
+			($1,$2,'feature_banner','banner','The salwar suit edit.','Straight suits, pant sets, and dupatta-ready festive picks.','banner','/images/products/suit-indigo-embroidered.png','Shop suit sets','/category/salwar-suits','salwar-suits','manual',1,$5,6,'active'),
 			($1,$2,'benefits','benefits','Why customers choose us','','icons','','','','','manual',4,$6,7,'active'),
 			($1,$2,'newsletter','newsletter','₹300 off your first order','Join the store letter for launches, styling notes, and private offers.','centered','','Subscribe','','','manual',1,'{}'::jsonb,8,'active')
 		on conflict (store_id,section_key) do nothing
 	`, organizationID, storeID,
-		map[string]any{"eyebrow": "THE FESTIVE CHAPTER · 2026"},
+		map[string]any{"eyebrow": "THE ETHNICWEAR CHAPTER · 2026"},
 		map[string]any{"tiles": []map[string]any{
-			{"title": "UNDER ₹1,999", "subtitle": "Everyday wardrobe favourites", "imageUrl": "/images/catalog/look-1.jpg", "href": "/category/all"},
-			{"title": "FESTIVE 40–60% OFF", "subtitle": "Celebration-ready styles", "imageUrl": "/images/catalog/look-4.jpg", "href": "/category/festive"},
-			{"title": "NEW SEASON EDIT", "subtitle": "Fresh silhouettes just in", "imageUrl": "/images/catalog/look-7.jpg", "href": "/category/new-arrivals"},
+			{"title": "KURTAS UNDER ₹1,999", "subtitle": "Printed, foil, and embroidered everyday styles", "imageUrl": "/images/products/kurta-orange-mangalgiri.png", "href": "/category/kurtas"},
+			{"title": "SALWAR SUIT SETS", "subtitle": "Pant sets and dupatta-ready festive looks", "imageUrl": "/images/products/suit-turquoise-printed-dupatta.png", "href": "/category/salwar-suits"},
+			{"title": "COTTON & CHANDERI EDIT", "subtitle": "Breathable fabrics with polished detailing", "imageUrl": "/images/products/suit-rust-satin-dupatta.png", "href": "/category/all"},
 		}},
-		map[string]any{"eyebrow": "LIMITED FESTIVE PREVIEW"},
+		map[string]any{"eyebrow": "SUIT SET SPOTLIGHT"},
 		map[string]any{"items": []map[string]any{
 			{"icon": "leaf", "label": "Premium fabrics"},
 			{"icon": "returns", "label": "Easy 7-day returns"},

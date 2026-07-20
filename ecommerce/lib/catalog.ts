@@ -66,11 +66,14 @@ export async function fetchStorefrontConfig():Promise<StorefrontConfig>{
 
 export const fallbackConfig:StorefrontConfig={
   store:{id:'fallback',name:'Rangavali',slug:'rangavali',logo_url:'',currency_code:'INR',country_code:'IN',settings:{brandName:'Rangavali',tagline:'Modern Indian clothing, thoughtfully made for women who collect moments, not trends.',announcement:'10% off first order · Free shipping above ₹1,999',returnPolicy:'Easy 7-day returns on unworn styles.',newsletterTitle:'₹300 off your first order'}},
-  categories:['Kurtas','Dresses','Co-Ord Sets','Festive','Sarees','Office Wear','Wedding','New Arrivals'].map((name,index)=>({id:name, name, slug:name.toLowerCase().replaceAll(' ','-'), image:`/images/catalog/look-${(index%8)+1}.jpg`, sort_order:index+1})),
+  categories:[
+    {name:'Kurtas',image:'/images/products/kurta-beige-chanderi-anarkali.png'},
+    {name:'Salwar Suits',image:'/images/products/suit-turquoise-printed-dupatta.png'}
+  ].map((category,index)=>({id:category.name, name:category.name, slug:category.name.toLowerCase().replaceAll(' ','-'), image:category.image, sort_order:index+1})),
   sections:[
-    {id:'hero',section_key:'hero',section_type:'hero',title:'Light, woven into every detail.',subtitle:'Heirloom-inspired silhouettes and luminous fabrics for every celebration.',layout:'split',image_url:'/images/rangavali-hero.png',cta_label:'Shop the collection',cta_href:'/category/festive',category_slug:'festive',product_source:'featured',max_items:8,content:{eyebrow:'THE FESTIVE CHAPTER · 2026'},sort_order:1},
+    {id:'hero',section_key:'hero',section_type:'hero',title:'Kurtas and suit sets for every day of celebration.',subtitle:'Printed cottons, chanderi textures, and easy salwar suit sets inspired by modern Indian wardrobes.',layout:'split',image_url:'/images/rangavali-hero.png',cta_label:'Shop salwar suits',cta_href:'/category/salwar-suits',category_slug:'salwar-suits',product_source:'featured',max_items:8,content:{eyebrow:'THE ETHNICWEAR CHAPTER · 2026'},sort_order:1},
     {id:'category_tiles',section_key:'category_tiles',section_type:'category_tiles',title:'Shop by category',subtitle:'',layout:'tiles',image_url:'',cta_label:'View all',cta_href:'/category/all',category_slug:'',product_source:'categories',max_items:8,content:{},sort_order:2},
-    {id:'trending',section_key:'trending',section_type:'product_grid',title:'Trending now',subtitle:'Styles everyone is adding to bag',layout:'grid',image_url:'',cta_label:'View all',cta_href:'/category/new-arrivals',category_slug:'all',product_source:'trending',max_items:12,content:{},sort_order:3},
+    {id:'trending',section_key:'trending',section_type:'product_grid',title:'Trending kurtas and suits',subtitle:'Styles everyone is adding to bag',layout:'grid',image_url:'',cta_label:'View all',cta_href:'/category/all',category_slug:'all',product_source:'trending',max_items:12,content:{},sort_order:3},
     {id:'bestsellers',section_key:'bestsellers',section_type:'product_grid',title:'Bestsellers',subtitle:'Most-loved styles',layout:'grid',image_url:'',cta_label:'View all',cta_href:'/category/all',category_slug:'all',product_source:'bestsellers',max_items:12,content:{},sort_order:4},
     {id:'newsletter',section_key:'newsletter',section_type:'newsletter',title:'₹300 off your first order',subtitle:'Join the store letter for launches and offers.',layout:'centered',image_url:'',cta_label:'Subscribe',cta_href:'',category_slug:'',product_source:'manual',max_items:1,content:{},sort_order:5}
   ],
