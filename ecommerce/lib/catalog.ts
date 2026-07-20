@@ -1,3 +1,5 @@
+import { apiBaseUrl, storeSlug } from './env';
+
 export type Product={id:string;variant_id?:string;slug?:string;name:string;category:string;price:number;original:number;rating:number;reviews:number;image:string;images?:string[];badge?:string;color:string;description?:string;variants?:Array<{id:string;title:string;sku:string;color:string;size:string;price:number;compareAtPrice?:number;costPrice?:number;stockQuantity:number}>};
 export type StorefrontCategory={id:string;name:string;slug:string;description?:string;image?:string;sort_order?:number};
 export type StorefrontSection={id:string;section_key:string;section_type:string;title:string;subtitle:string;layout:string;image_url:string;cta_label:string;cta_href:string;category_slug:string;product_source:string;max_items:number;content:Record<string,any>;sort_order:number};
@@ -6,8 +8,6 @@ export type StorefrontShipping={id:string;name:string;country_code:string;region
 export type StorefrontConfig={store:{id:string;name:string;slug:string;domain?:string;logo_url?:string;currency_code:string;country_code:string;settings:Record<string,any>};categories:StorefrontCategory[];sections:StorefrontSection[];paymentMethods:StorefrontPayment[];shippingOptions:StorefrontShipping[]};
 export const money=(n:number)=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n);
 
-const API_BASE=process.env.NEXT_PUBLIC_API_BASE_URL??'http://localhost:4005';
-const STORE_SLUG=process.env.NEXT_PUBLIC_STORE_SLUG??'rangavali';
 export const STOREFRONT_BASE_URL=process.env.NEXT_PUBLIC_STOREFRONT_BASE_URL??'http://localhost:3006';
 
 function normalizeProduct(raw:any):Product{
@@ -35,7 +35,7 @@ export async function fetchProducts(category?:string,limit=60):Promise<Product[]
   try{
     const params=new URLSearchParams({limit:String(limit)});
     if(category)params.set('category',category);
-    const res=await fetch(`${API_BASE}/v1/storefront/${STORE_SLUG}/products?${params}`,{cache:'no-store'});
+    const res=await fetch(`${apiBaseUrl()}/v1/storefront/${storeSlug}/products?${params}`,{cache:'no-store'});
     if(!res.ok)throw new Error('storefront unavailable');
     const data=await res.json();
     const items=(data.items??[]).map(normalizeProduct);
@@ -44,14 +44,14 @@ export async function fetchProducts(category?:string,limit=60):Promise<Product[]
 }
 
 export async function fetchProduct(slug:string):Promise<Product>{
-  const res=await fetch(`${API_BASE}/v1/storefront/${STORE_SLUG}/products/${slug}`,{cache:'no-store'});
+  const res=await fetch(`${apiBaseUrl()}/v1/storefront/${storeSlug}/products/${slug}`,{cache:'no-store'});
     if(!res.ok)throw new Error('product unavailable');
     return normalizeProduct(await res.json());
 }
 
 export async function fetchStorefrontConfig():Promise<StorefrontConfig>{
   try{
-    const res=await fetch(`${API_BASE}/v1/storefront/${STORE_SLUG}/config`,{cache:'no-store'});
+    const res=await fetch(`${apiBaseUrl()}/v1/storefront/${storeSlug}/config`,{cache:'no-store'});
     if(!res.ok)throw new Error('storefront config unavailable');
     const data=await res.json();
     return {

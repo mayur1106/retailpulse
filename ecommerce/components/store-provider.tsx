@@ -1,9 +1,8 @@
 'use client';
 import {createContext,useContext,useEffect,useMemo,useState} from 'react';
 import {Toaster,toast} from 'sonner';
+import {apiBaseUrl,storeSlug} from '../lib/env';
 
-const API_BASE=process.env.NEXT_PUBLIC_API_BASE_URL??'http://localhost:4005';
-const STORE_SLUG=process.env.NEXT_PUBLIC_STORE_SLUG??'rangavali';
 const CART_TOKEN_KEY='retailpulseCartToken';
 const VISITOR_ID_KEY='retailpulseVisitorId';
 
@@ -88,5 +87,5 @@ export function StoreProvider({children}:{children:React.ReactNode}){
 }
 
 function readLocalCart():CartItem[]{try{const raw=JSON.parse(localStorage.rvCart||'[]');return raw.map((x:any)=>typeof x==='string'||typeof x==='number'?{productId:String(x)}:{productId:String(x.productId),variantId:x.variantId?String(x.variantId):undefined,cartItemId:x.cartItemId?String(x.cartItemId):undefined}).filter((x:any)=>x.productId)}catch{return []}}
-async function cartRequest(path:string,init:RequestInit){const res=await fetch(`${API_BASE}/v1/storefront/${STORE_SLUG}/cart${path}`,{...init,headers:{'Content-Type':'application/json',...(init.headers??{})}});const data=await res.json().catch(()=>null);if(!res.ok)throw new Error(data?.error?.message||'Cart request failed');return data}
+async function cartRequest(path:string,init:RequestInit){const res=await fetch(`${apiBaseUrl()}/v1/storefront/${storeSlug}/cart${path}`,{...init,headers:{'Content-Type':'application/json',...(init.headers??{})}});const data=await res.json().catch(()=>null);if(!res.ok)throw new Error(data?.error?.message||'Cart request failed');return data}
 function cartFromBackend(data:any):CartItem[]{const rows=Array.isArray(data?.items)?data.items:[];return rows.flatMap((item:any)=>Array.from({length:Math.max(1,Number(item.quantity??1))},()=>({productId:String(item.productId),variantId:item.variantId?String(item.variantId):undefined,cartItemId:String(item.id),quantity:Number(item.quantity??1)})))}

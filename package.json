@@ -2,10 +2,10 @@
   "name": "retailpulse-saas",
   "private": true,
   "scripts": {
-    "docker:up": "docker compose up --build",
+    "docker:up": "docker compose --env-file .env.local up --build",
     "docker:up:local": "docker compose --env-file .env.local up --build",
     "docker:up:server": "docker compose --env-file .env.server up --build",
-    "docker:up:detached": "docker compose up --build -d",
+    "docker:up:detached": "docker compose --env-file .env.local up --build -d",
     "docker:up:local:detached": "docker compose --env-file .env.local up --build -d",
     "docker:up:server:detached": "docker compose --env-file .env.server up --build -d",
     "docker:down": "docker compose down",
